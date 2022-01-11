@@ -2,7 +2,7 @@
   "name": "daily-english-api",
   "version": "0.0.0",
   "scripts": {
-    "dev": "nodemon --watch 'src/' --exec 'ts-node src/server.ts' -e ts",
+    "dev": "nodemon --watch 'src/' --exec 'ts-node src/application/application.ts' -e ts",
     "commit": "git add .; git-cz",
     "husky:prepare": "husky install"
   },
