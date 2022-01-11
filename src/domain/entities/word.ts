@@ -11,4 +11,4 @@ interface Entity {
   tense: Tense;
 }
 
-export type Word = DateRecords & Entity;
+export type Word = Entity & DateRecords;

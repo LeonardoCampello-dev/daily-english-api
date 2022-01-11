@@ -1,4 +1,6 @@
-interface Phrase {
+import { DateRecords } from '@/main/types';
+
+interface Entity {
   id: string;
 
   phrase: string;
@@ -8,3 +10,5 @@ interface Phrase {
 
   associatedWords: string[];
 }
+
+export type Phrase = Entity & DateRecords;
