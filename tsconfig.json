@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "outDir": "dist",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    }
+  }
+}
