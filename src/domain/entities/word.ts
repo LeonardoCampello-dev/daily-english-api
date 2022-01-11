@@ -1,16 +1,14 @@
-type Tense = 'present' | 'past' | 'future' | 'continuous' | 'perfect'
+import { DateRecords, Tense } from '@/main/types';
 
-interface Word {
-  id: string
+interface Entity {
+  id: string;
 
-  word: string
-  translation: string
+  word: string;
+  translation: string;
 
-  created_at: string
-  updated_at: string
-  deleted_at: string
+  note: string;
 
-  note: string
-
-  tense: Tense
+  tense: Tense;
 }
+
+export type Word = DateRecords & Entity;
