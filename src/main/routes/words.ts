@@ -1,11 +1,12 @@
 import { Router, Request, Response } from 'express';
 
-import { Crud } from '../../application/helpers';
+import { Crud, ErrorHandler } from '../../application/helpers';
 import { Word } from '../../domain/entities';
 import { faunaClient } from '../config/fauna-client';
 
 const router = Router();
-const CrudService = new Crud<Word>('words', faunaClient);
+const crudService = new Crud<Word>('words', faunaClient);
+const errorHandler = new ErrorHandler();
 
 type Body = Omit<Word, 'id'>;
 
@@ -13,11 +14,13 @@ router.get('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
 
-    const result = await CrudService.get<Word>(id);
+    const result = await crudService.get<Word>(id);
 
     response.json(result.data);
   } catch (error) {
-    response.json(error);
+    const formattedError = errorHandler.handle(error.requestResult.statusCode);
+
+    response.status(formattedError.status).json(formattedError);
   }
 });
 
@@ -25,11 +28,13 @@ router.post('/', async (request: Request, response: Response) => {
   try {
     const { body } = request;
 
-    const result = await CrudService.create<Body, Word>(body);
+    const result = await crudService.create<Body, Word>(body);
 
     response.json(result.data);
   } catch (error) {
-    response.json(error);
+    const formattedError = errorHandler.handle(error.requestResult.statusCode);
+
+    response.status(formattedError.status).json(formattedError);
   }
 });
 
@@ -40,11 +45,13 @@ router.put('/:id', async (request: Request, response: Response) => {
       params: { id }
     } = request;
 
-    const result = await CrudService.update<Body, Word>(id, body);
+    const result = await crudService.update<Body, Word>(id, body);
 
     response.json(result.data);
   } catch (error) {
-    response.json(error);
+    const formattedError = errorHandler.handle(error.requestResult.statusCode);
+
+    response.status(formattedError.status).json(formattedError);
   }
 });
 
@@ -52,11 +59,13 @@ router.delete('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
 
-    const result = await CrudService.delete<Word>(id);
+    const result = await crudService.delete<Word>(id);
 
     response.json(result.data);
   } catch (error) {
-    response.json(error);
+    const formattedError = errorHandler.handle(error.requestResult.statusCode);
+
+    response.status(formattedError.status).json(formattedError);
   }
 });
 
