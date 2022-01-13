@@ -9,6 +9,8 @@ interface Entity {
   note: string;
 
   tense: Tense;
+
+  deleted: boolean;
 }
 
 export type Word = Entity & DateRecords;

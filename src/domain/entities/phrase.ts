@@ -9,6 +9,8 @@ interface Entity {
   note: string;
 
   associatedWords: string[];
+
+  deleted: boolean;
 }
 
 export type Phrase = Entity & DateRecords;

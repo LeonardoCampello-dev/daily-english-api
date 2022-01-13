@@ -11,6 +11,8 @@ interface Entity {
   subject: string;
 
   keywords: string[];
+
+  deleted: boolean;
 }
 
 export type Podcast = Entity & DateRecords;
