@@ -1,10 +1,10 @@
 import { Collections, FaunaQueryResponse } from '../../main/types';
 
-import { Client, Get, Ref, Collection, Create, Update } from 'faunadb';
+import { Client, Get, Ref, Collection, Create, Update, Match, Index, Casefold } from 'faunadb';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Protocol<T = any> {
-  get: (id: string) => void;
+  get: (id: string, index: string) => void;
   create: (body: T) => void;
   update: (id: string, body: T) => void;
   delete: (id: string) => void;
@@ -13,8 +13,8 @@ interface Protocol<T = any> {
 export class Crud<T> implements Protocol<T> {
   constructor(private readonly collection: Collections, private readonly client: Client) {}
 
-  async get<Response = any>(id: string) {
-    const query = Get(Ref(Collection(this.collection), id));
+  async get<Response = any>(id: string, index: string) {
+    const query = Get(Match(Index(index), Casefold(id)));
 
     const data = (await this.client.query(query)) as FaunaQueryResponse<Response>;
 

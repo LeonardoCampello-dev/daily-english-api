@@ -14,7 +14,7 @@ router.get('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
 
-    const result = await crudService.get<Article>(id);
+    const result = await crudService.get<Article>(id, 'article_by_id');
 
     response.json(result.data);
   } catch (error) {

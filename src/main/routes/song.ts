@@ -14,7 +14,7 @@ router.get('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
 
-    const result = await crudService.get<Song>(id);
+    const result = await crudService.get<Song>(id, 'song_by_id');
 
     response.json(result.data);
   } catch (error) {
