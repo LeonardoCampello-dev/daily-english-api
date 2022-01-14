@@ -4,3 +4,4 @@ export * from './invalid-data';
 export * from './permission-denied';
 export * from './server-error';
 export * from './unauthorized';
+export * from './bad-request';

@@ -1,6 +1,5 @@
-import { HttpStatusCode } from '../../main/types';
-
 import {
+  BadRequestError,
   InstanceNotFoundError,
   InstanceNotUniqueError,
   PermissionDeniedError,
@@ -8,29 +7,43 @@ import {
   UnauthorizedError
 } from '../errors';
 
+import { HttpStatusCode } from '../../main/types';
+
 export class ErrorHandler {
   constructor() {}
 
   handle(code: HttpStatusCode, description?: string) {
     switch (code) {
-      case 409: {
-        return { status: 409, error: new InstanceNotUniqueError(), description };
+      case HttpStatusCode.badRequest: {
+        return { status: HttpStatusCode.badRequest, error: new BadRequestError(), description };
       }
 
-      case 401: {
-        return { status: 401, error: new UnauthorizedError(), description };
+      case HttpStatusCode.unauthorized: {
+        return { status: HttpStatusCode.unauthorized, error: new UnauthorizedError(), description };
       }
 
-      case 404: {
-        return { status: 404, error: new InstanceNotFoundError(), description };
+      case HttpStatusCode.forbidden: {
+        return {
+          status: HttpStatusCode.forbidden,
+          error: new PermissionDeniedError(),
+          description
+        };
       }
 
-      case 403: {
-        return { status: 403, error: new PermissionDeniedError(), description };
+      case HttpStatusCode.notFound: {
+        return { status: HttpStatusCode.notFound, error: new InstanceNotFoundError(), description };
+      }
+
+      case HttpStatusCode.conflict: {
+        return {
+          status: HttpStatusCode.conflict,
+          error: new InstanceNotUniqueError(),
+          description
+        };
       }
 
       default: {
-        return { status: 500, error: new ServerError(), description };
+        return { status: HttpStatusCode.serverError, error: new ServerError(), description };
       }
     }
   }
