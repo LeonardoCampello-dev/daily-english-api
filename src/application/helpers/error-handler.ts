@@ -1,4 +1,5 @@
-import { HttpStatusCode } from '@/main/types/http-response';
+import { HttpStatusCode } from '../../main/types';
+
 import {
   InstanceNotFoundError,
   InstanceNotUniqueError,

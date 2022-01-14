@@ -1,4 +1,10 @@
-export * from './date-records';
-export * from './tense';
-export * from './collections';
-export * from './fauna-query-response';
+export * from './date-records/date-records';
+
+export * from './english/tense';
+
+export * from './collections/collections';
+export * from './collections/indexes';
+
+export * from './fauna/fauna-query-response';
+
+export * from './http/http-response';
