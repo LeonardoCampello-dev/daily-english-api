@@ -18,7 +18,7 @@ router.get('/:id', async (request: Request, response: Response) => {
 
     response.json(result.data);
   } catch (error) {
-    const formattedError = errorHandler.handle(error.requestResult.statusCode);
+    const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
     response.status(formattedError.status).json(formattedError);
   }
@@ -32,7 +32,7 @@ router.post('/', async (request: Request, response: Response) => {
 
     response.json(result.data);
   } catch (error) {
-    const formattedError = errorHandler.handle(error.requestResult.statusCode);
+    const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
     response.status(formattedError.status).json(formattedError);
   }
@@ -49,7 +49,7 @@ router.put('/:id', async (request: Request, response: Response) => {
 
     response.json(result.data);
   } catch (error) {
-    const formattedError = errorHandler.handle(error.requestResult.statusCode);
+    const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
     response.status(formattedError.status).json(formattedError);
   }
@@ -63,7 +63,7 @@ router.delete('/:id', async (request: Request, response: Response) => {
 
     response.json(result.data);
   } catch (error) {
-    const formattedError = errorHandler.handle(error.requestResult.statusCode);
+    const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
     response.status(formattedError.status).json(formattedError);
   }
