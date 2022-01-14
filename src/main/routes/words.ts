@@ -1,8 +1,12 @@
 import { Router, Request, Response } from 'express';
 
 import { Crud, ErrorHandler } from '../../application/helpers';
-import { Word } from '../../domain/entities';
+import { ValidateRequestBody } from '../../application/validation';
+import { wordRequestBodySchema } from '../../application/validation/schemas/word/word-post-request';
+
 import { faunaClient } from '../config/fauna-client';
+import { Word } from '../../domain/entities';
+import { HttpStatusCode } from '../types';
 
 const router = Router();
 const crudService = new Crud<Word>('words', faunaClient);
@@ -27,6 +31,14 @@ router.get('/:id', async (request: Request, response: Response) => {
 router.post('/', async (request: Request, response: Response) => {
   try {
     const { body } = request;
+
+    const validate = ValidateRequestBody<Body>(wordRequestBodySchema, body);
+
+    if (validate.error) {
+      const formattedError = errorHandler.handle(HttpStatusCode.badRequest, validate.error.message);
+
+      response.status(formattedError.status).json(formattedError);
+    }
 
     const result = await crudService.create<Body, Word>(body);
 

@@ -6,7 +6,7 @@ interface Entity {
   word: string;
   translation: string;
 
-  note: string;
+  note?: string;
 
   tense: Tense;
 
