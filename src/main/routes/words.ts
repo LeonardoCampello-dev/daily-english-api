@@ -2,7 +2,11 @@ import { Router, Request, Response } from 'express';
 
 import { Crud, ErrorHandler } from '../../application/helpers';
 import { ValidateRequestBody } from '../../application/validation';
-import { wordRequestBodySchema } from '../../application/validation/schemas/word/word-post-request';
+
+import {
+  postRequestSchema,
+  putRequestSchema
+} from '../../application/validation/schemas/word/request';
 
 import { faunaClient } from '../config/fauna-client';
 import { Word } from '../../domain/entities';
@@ -18,6 +22,12 @@ router.get('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
 
+    if (!id) {
+      const formattedError = errorHandler.handle(HttpStatusCode.badRequest, 'id is required.');
+
+      response.status(formattedError.status).json(formattedError);
+    }
+
     const result = await crudService.get<Word>(id, 'word_by_id');
 
     response.json(result.data);
@@ -32,7 +42,7 @@ router.post('/', async (request: Request, response: Response) => {
   try {
     const { body } = request;
 
-    const validate = ValidateRequestBody<Body>(wordRequestBodySchema, body);
+    const validate = ValidateRequestBody<Body>(postRequestSchema, body);
 
     if (validate.error) {
       const formattedError = errorHandler.handle(HttpStatusCode.badRequest, validate.error.message);
@@ -57,6 +67,17 @@ router.put('/:id', async (request: Request, response: Response) => {
       params: { id }
     } = request;
 
+    const validate = ValidateRequestBody<Body>(putRequestSchema, body);
+
+    if (validate.error || !id) {
+      const formattedError = errorHandler.handle(
+        HttpStatusCode.badRequest,
+        validate.error.message || 'id is required'
+      );
+
+      response.status(formattedError.status).json(formattedError);
+    }
+
     const result = await crudService.update<Body, Word>(id, body);
 
     response.json(result.data);
@@ -70,6 +91,12 @@ router.put('/:id', async (request: Request, response: Response) => {
 router.delete('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
+
+    if (!id) {
+      const formattedError = errorHandler.handle(HttpStatusCode.badRequest, 'id is required.');
+
+      response.status(formattedError.status).json(formattedError);
+    }
 
     const result = await crudService.delete<Word>(id);
 
