@@ -4,8 +4,8 @@ import { Crud, ErrorHandler } from '../../application/helpers';
 import { ValidateRequestBody } from '../../application/validation';
 
 import {
-  postRequestSchema,
-  putRequestSchema
+  wordPostRequestSchema,
+  wordPutRequestSchema
 } from '../../application/validation/schemas/word/request';
 
 import { faunaClient } from '../config/fauna-client';
@@ -42,7 +42,7 @@ router.post('/', async (request: Request, response: Response) => {
   try {
     const { body } = request;
 
-    const validate = ValidateRequestBody<Body>(postRequestSchema, body);
+    const validate = ValidateRequestBody<Body>(wordPostRequestSchema, body);
 
     if (validate.error) {
       const formattedError = errorHandler.handle(HttpStatusCode.badRequest, validate.error.message);
@@ -67,7 +67,7 @@ router.put('/:id', async (request: Request, response: Response) => {
       params: { id }
     } = request;
 
-    const validate = ValidateRequestBody<Body>(putRequestSchema, body);
+    const validate = ValidateRequestBody<Body>(wordPutRequestSchema, body);
 
     if (validate.error || !id) {
       const formattedError = errorHandler.handle(

@@ -6,9 +6,9 @@ interface Entity {
   phrase: string;
   translation: string;
 
-  note: string;
+  note?: string;
 
-  associatedWords: string[];
+  associatedWords?: string[];
 
   deleted: boolean;
 }
