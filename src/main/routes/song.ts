@@ -3,10 +3,7 @@ import { Router, Request, Response } from 'express';
 import { Crud, ErrorHandler } from '../../application/helpers';
 import { ValidateRequestBody } from '../../application/validation';
 
-import {
-  songPostRequestSchema,
-  songPutRequestSchema
-} from '../../application/validation/schemas/song/request';
+import { songPostRequestSchema, songPutRequestSchema } from '../../application/validation/schemas';
 
 import { faunaClient } from '../config/fauna-client';
 import { Song } from '../../domain/entities';

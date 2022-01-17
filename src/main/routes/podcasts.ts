@@ -6,7 +6,7 @@ import { ValidateRequestBody } from '../../application/validation';
 import {
   podcastPostRequestSchema,
   podcastPutRequestSchema
-} from '../../application/validation/schemas/podcast/request';
+} from '../../application/validation/schemas';
 
 import { faunaClient } from '../config/fauna-client';
 import { Podcast } from '../../domain/entities';

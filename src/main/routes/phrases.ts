@@ -5,7 +5,7 @@ import { Crud, ErrorHandler } from '../../application/helpers';
 import {
   phrasePostRequestSchema,
   phrasePutRequestSchema
-} from '../../application/validation/schemas/phrase/request';
+} from '../../application/validation/schemas';
 
 import { ValidateRequestBody } from '../../application/validation';
 

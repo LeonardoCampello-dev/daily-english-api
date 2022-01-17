@@ -3,10 +3,7 @@ import { Router, Request, Response } from 'express';
 import { Crud, ErrorHandler } from '../../application/helpers';
 import { ValidateRequestBody } from '../../application/validation';
 
-import {
-  wordPostRequestSchema,
-  wordPutRequestSchema
-} from '../../application/validation/schemas/word/request';
+import { wordPostRequestSchema, wordPutRequestSchema } from '../../application/validation/schemas';
 
 import { faunaClient } from '../config/fauna-client';
 import { Word } from '../../domain/entities';

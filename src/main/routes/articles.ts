@@ -5,7 +5,7 @@ import { ValidateRequestBody } from '../../application/validation';
 import {
   articlePostRequestSchema,
   articlePutRequestSchema
-} from '../../application/validation/schemas/article/request';
+} from '../../application/validation/schemas';
 
 import { faunaClient } from '../config/fauna-client';
 import { Article } from '../../domain/entities';
