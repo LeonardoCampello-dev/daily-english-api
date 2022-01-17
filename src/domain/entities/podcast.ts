@@ -6,11 +6,11 @@ interface Entity {
   title: string;
   url: string;
 
-  note: string;
+  note?: string;
 
   subject: string;
 
-  keywords: string[];
+  keywords?: string[];
 
   deleted: boolean;
 }
