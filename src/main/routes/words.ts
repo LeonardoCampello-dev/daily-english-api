@@ -10,7 +10,7 @@ import {
 
 import { faunaClient } from '../config/fauna-client';
 import { Word } from '../../domain/entities';
-import { HttpStatusCode } from '../types';
+import { CollectionIndexesEnum, HttpStatusCode } from '../types';
 
 const router = Router();
 const crudService = new Crud<Word>('words', faunaClient);
@@ -28,7 +28,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Word>(id, 'word_by_id');
+    const result = await crudService.get<Word>(id, CollectionIndexesEnum.wordById);
 
     response.json(result.data);
   } catch (error) {

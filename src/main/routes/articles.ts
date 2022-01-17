@@ -9,7 +9,7 @@ import {
 
 import { faunaClient } from '../config/fauna-client';
 import { Article } from '../../domain/entities';
-import { HttpStatusCode } from '../types';
+import { CollectionIndexesEnum, HttpStatusCode } from '../types';
 
 const router = Router();
 const crudService = new Crud<Article>('articles', faunaClient);
@@ -27,7 +27,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Article>(id, 'article_by_id');
+    const result = await crudService.get<Article>(id, CollectionIndexesEnum.articleById);
 
     response.json(result.data);
   } catch (error) {

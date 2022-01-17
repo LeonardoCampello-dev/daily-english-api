@@ -10,7 +10,7 @@ import {
 
 import { faunaClient } from '../config/fauna-client';
 import { Song } from '../../domain/entities';
-import { HttpStatusCode } from '../types';
+import { CollectionIndexesEnum, HttpStatusCode } from '../types';
 
 const router = Router();
 const crudService = new Crud<Song>('songs', faunaClient);
@@ -28,7 +28,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Song>(id, 'song_by_id');
+    const result = await crudService.get<Song>(id, CollectionIndexesEnum.songById);
 
     response.json(result.data);
   } catch (error) {

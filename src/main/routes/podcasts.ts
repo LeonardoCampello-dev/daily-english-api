@@ -10,7 +10,7 @@ import {
 
 import { faunaClient } from '../config/fauna-client';
 import { Podcast } from '../../domain/entities';
-import { HttpStatusCode } from '../types';
+import { CollectionIndexesEnum, HttpStatusCode } from '../types';
 
 const router = Router();
 const crudService = new Crud<Podcast>('podcasts', faunaClient);
@@ -28,7 +28,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Podcast>(id, 'podcast_by_id');
+    const result = await crudService.get<Podcast>(id, CollectionIndexesEnum.podcastById);
 
     response.json(result.data);
   } catch (error) {

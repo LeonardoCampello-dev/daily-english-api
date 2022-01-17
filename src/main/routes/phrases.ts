@@ -11,7 +11,7 @@ import { ValidateRequestBody } from '../../application/validation';
 
 import { faunaClient } from '../config/fauna-client';
 import { Phrase } from '../../domain/entities';
-import { HttpStatusCode } from '../types';
+import { CollectionIndexesEnum, HttpStatusCode } from '../types';
 
 const router = Router();
 const crudService = new Crud<Phrase>('sentences', faunaClient);
@@ -29,7 +29,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Phrase>(id, 'phrase_by_id');
+    const result = await crudService.get<Phrase>(id, CollectionIndexesEnum.phraseById);
 
     response.json(result.data);
   } catch (error) {
