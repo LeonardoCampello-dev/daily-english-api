@@ -1,8 +1,15 @@
 import { Router, Request, Response } from 'express';
 
 import { Crud, ErrorHandler } from '../../application/helpers';
-import { Article } from '../../domain/entities';
+import { ValidateRequestBody } from '../../application/validation';
+import {
+  articlePostRequestSchema,
+  articlePutRequestSchema
+} from '../../application/validation/schemas/article/request';
+
 import { faunaClient } from '../config/fauna-client';
+import { Article } from '../../domain/entities';
+import { HttpStatusCode } from '../types';
 
 const router = Router();
 const crudService = new Crud<Article>('articles', faunaClient);
@@ -13,6 +20,12 @@ type Body = Omit<Article, 'id'>;
 router.get('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
+
+    if (!id) {
+      const formattedError = errorHandler.handle(HttpStatusCode.badRequest, 'id is required.');
+
+      response.status(formattedError.status).json(formattedError);
+    }
 
     const result = await crudService.get<Article>(id, 'article_by_id');
 
@@ -27,6 +40,14 @@ router.get('/:id', async (request: Request, response: Response) => {
 router.post('/', async (request: Request, response: Response) => {
   try {
     const { body } = request;
+
+    const validate = ValidateRequestBody<Body>(articlePostRequestSchema, body);
+
+    if (validate.error) {
+      const formattedError = errorHandler.handle(HttpStatusCode.badRequest, validate.error.message);
+
+      response.status(formattedError.status).json(formattedError);
+    }
 
     const result = await crudService.create<Body, Article>(body);
 
@@ -45,6 +66,17 @@ router.put('/:id', async (request: Request, response: Response) => {
       params: { id }
     } = request;
 
+    const validate = ValidateRequestBody<Body>(articlePutRequestSchema, body);
+
+    if (validate.error || !id) {
+      const formattedError = errorHandler.handle(
+        HttpStatusCode.badRequest,
+        validate.error.message || 'id is required'
+      );
+
+      response.status(formattedError.status).json(formattedError);
+    }
+
     const result = await crudService.update<Body, Article>(id, body);
 
     response.json(result.data);
@@ -58,6 +90,12 @@ router.put('/:id', async (request: Request, response: Response) => {
 router.delete('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
+
+    if (!id) {
+      const formattedError = errorHandler.handle(HttpStatusCode.badRequest, 'id is required.');
+
+      response.status(formattedError.status).json(formattedError);
+    }
 
     const result = await crudService.delete<Article>(id);
 
