@@ -1,4 +1,4 @@
-import { DateRecords } from '@/main/types';
+import { DateRecords, Tense } from '@/main/types';
 
 interface Entity {
   id: string;
@@ -7,6 +7,8 @@ interface Entity {
   translation: string;
 
   note?: string;
+
+  tense?: Tense;
 
   associatedWords?: string[];
 

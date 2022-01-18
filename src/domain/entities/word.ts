@@ -8,8 +8,6 @@ interface Entity {
 
   note?: string;
 
-  tense: Tense;
-
   deleted: boolean;
 }
 
