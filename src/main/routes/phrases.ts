@@ -29,7 +29,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Phrase>(id, CollectionIndexesEnum.phraseById);
+    const result = await crudService.get<Phrase>(id, CollectionIndexesEnum.PHRASE_BY_ID);
 
     response.json(result);
   } catch (error) {

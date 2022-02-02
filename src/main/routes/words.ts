@@ -2,7 +2,6 @@ import { Router, Request, Response } from 'express';
 
 import { Crud, ErrorHandler } from '../../application/helpers';
 import { ValidateRequestBody } from '../../application/validation';
-
 import { wordPostRequestSchema, wordPutRequestSchema } from '../../application/validation/schemas';
 
 import { faunaClient } from '../config/fauna-client';
@@ -15,9 +14,9 @@ const errorHandler = new ErrorHandler();
 
 type Body = Omit<Word, 'id'>;
 
-router.get('', async (request: Request, response: Response) => {
+router.get('/', async (request: Request, response: Response) => {
   try {
-    const result = await crudService.getAll<Word[]>();
+    const result = await crudService.getAll<Word>();
 
     response.json(result);
   } catch (error) {
@@ -39,7 +38,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Word>(id, CollectionIndexesEnum.wordById);
+    const result = await crudService.get<Word>(id, CollectionIndexesEnum.WORD_BY_ID);
 
     response.json(result);
   } catch (error) {

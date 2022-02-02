@@ -6,9 +6,9 @@ export type CollectionIndexes =
   | 'article_by_id';
 
 export enum CollectionIndexesEnum {
-  wordById = 'word_by_id',
-  songById = 'song_by_id',
-  phraseById = 'phrase_by_id',
-  podcastById = 'podcast_by_id',
-  articleById = 'article_by_id'
+  WORD_BY_ID = 'word_by_id',
+  SONG_BY_ID = 'song_by_id',
+  PHRASE_BY_ID = 'phrase_by_id',
+  PODCAST_BY_ID = 'podcast_by_id',
+  ARTICLE_BY_ID = 'article_by_id'
 }

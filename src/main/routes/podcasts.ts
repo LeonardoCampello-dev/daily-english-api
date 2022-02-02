@@ -28,7 +28,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Podcast>(id, CollectionIndexesEnum.podcastById);
+    const result = await crudService.get<Podcast>(id, CollectionIndexesEnum.PODCAST_BY_ID);
 
     response.json(result);
   } catch (error) {

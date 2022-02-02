@@ -1,4 +1,10 @@
-import { CollectionIndexes, Collections, FaunaQueryResponse } from '../../main/types';
+import {
+  CollectionIndexes,
+  Collections,
+  CrudProtocol,
+  FaunaQueryResponse,
+  FaunaQueryResponseArr
+} from '../../main/types';
 
 import {
   Client,
@@ -16,67 +22,59 @@ import {
   Map as QueryMap
 } from 'faunadb';
 
+import { formatFaunaQueryResponseArr as formatArr } from '../formatters';
+
 import { v4 as uuidv4 } from 'uuid';
 
-interface Protocol<T = any> {
-  get: (id: string, index: CollectionIndexes) => void;
-  create: (body: T) => void;
-  update: (id: string, body: T) => void;
-  delete: (id: string) => void;
-}
-
-export class Crud<T> implements Protocol<T> {
+export class Crud<TBody> implements CrudProtocol<TBody> {
   constructor(private readonly collection: Collections, private readonly client: Client) {}
 
-  /* TODO refactor */
-  async getAll<Response = any>() {
+  async getAll<TResponse = object>() {
     const query = QueryMap(
       Paginate(Documents(Collection(this.collection))),
-      Lambda((x) => Get(x))
+      Lambda((params) => Get(params))
     );
 
-    const response = (await this.client.query(query)) as { data: FaunaQueryResponse<Response>[] };
+    const response = (await this.client.query(query)) as FaunaQueryResponseArr<TResponse>;
 
-    const formatted = response.data.map((item) => item.data);
-
-    return formatted;
+    return formatArr<TResponse>(response);
   }
 
-  async get<Response = any>(id: string, index: CollectionIndexes) {
+  async get<TResponse = object>(id: string, index: CollectionIndexes) {
     const query = Get(Match(Index(index), Casefold(id)));
 
-    const response = (await this.client.query(query)) as FaunaQueryResponse<Response>;
+    const response = (await this.client.query(query)) as FaunaQueryResponse<TResponse>;
 
     return response.data;
   }
 
-  async create<Body = any, Response = any>(body: Body) {
+  async create<Body = any, TResponse = object>(body: Body) {
     const id = uuidv4();
     const createdAt = Date.now();
 
     const query = Create(Collection(this.collection), { data: { id, createdAt, ...body } });
 
-    const response = (await this.client.query(query)) as FaunaQueryResponse<Response>;
+    const response = (await this.client.query(query)) as FaunaQueryResponse<TResponse>;
 
     return response.data;
   }
 
-  async update<Body = any, Response = any>(id: string, body: Body) {
+  async update<Body = any, TResponse = object>(id: string, body: Body) {
     const updatedAt = Date.now();
 
     const query = Update(Ref(Collection(this.collection), id), { data: { updatedAt, ...body } });
 
-    const response = (await this.client.query(query)) as FaunaQueryResponse<Response>;
+    const response = (await this.client.query(query)) as FaunaQueryResponse<TResponse>;
 
     return response.data;
   }
 
-  async delete<Response = any>(id: string) {
+  async delete<TResponse = object>(id: string) {
     const body = { deleted: true, deletedAt: Date.now() };
 
     const query = Update(Ref(Collection(this.collection), id), { data: { ...body } });
 
-    const response = (await this.client.query(query)) as FaunaQueryResponse<Response>;
+    const response = (await this.client.query(query)) as FaunaQueryResponse<TResponse>;
 
     return response.data;
   }

@@ -8,3 +8,5 @@ export * from './collections/indexes';
 export * from './fauna/fauna-query-response';
 
 export * from './http/http-response';
+
+export * from './crud/crud-protocol';
