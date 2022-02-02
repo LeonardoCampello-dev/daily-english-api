@@ -1,6 +1,21 @@
 import { CollectionIndexes, Collections, FaunaQueryResponse } from '../../main/types';
 
-import { Client, Get, Ref, Collection, Create, Update, Match, Index, Casefold } from 'faunadb';
+import {
+  Client,
+  Get,
+  Ref,
+  Collection,
+  Create,
+  Update,
+  Match,
+  Index,
+  Casefold,
+  Paginate,
+  Documents,
+  Lambda,
+  Map as QueryMap
+} from 'faunadb';
+
 import { v4 as uuidv4 } from 'uuid';
 
 interface Protocol<T = any> {
@@ -12,6 +27,20 @@ interface Protocol<T = any> {
 
 export class Crud<T> implements Protocol<T> {
   constructor(private readonly collection: Collections, private readonly client: Client) {}
+
+  /* TODO refactor */
+  async getAll<Response = any>() {
+    const query = QueryMap(
+      Paginate(Documents(Collection(this.collection))),
+      Lambda((x) => Get(x))
+    );
+
+    const result = (await this.client.query(query)) as { data: FaunaQueryResponse<Response>[] };
+
+    const formatted = result.data.map((item) => item.data);
+
+    return formatted;
+  }
 
   async get<Response = any>(id: string, index: CollectionIndexes) {
     const query = Get(Match(Index(index), Casefold(id)));
