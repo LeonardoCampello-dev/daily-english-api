@@ -1,5 +1,11 @@
 import { FaunaQueryResponseArr } from '@/main/types';
 
 export const formatFaunaQueryResponseArr = <TData = object>(arr: FaunaQueryResponseArr<TData>) => {
-  return arr.data.map((item) => item.data);
+  const items = arr.data.map((item) => item.data);
+  const count = items.length;
+
+  return {
+    items,
+    count
+  };
 };
