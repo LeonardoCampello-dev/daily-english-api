@@ -15,6 +15,20 @@ const errorHandler = new ErrorHandler();
 
 type Body = Omit<Song, 'id'>;
 
+router.get('/', async (request: Request, response: Response) => {
+  try {
+    const result = await crudService.getAll<Song>();
+
+    response.json(result);
+  } catch (error) {
+    console.error(error);
+
+    const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
+
+    response.status(formattedError.status).json(formattedError);
+  }
+});
+
 router.get('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
