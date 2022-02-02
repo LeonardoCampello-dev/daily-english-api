@@ -35,9 +35,9 @@ export class Crud<T> implements Protocol<T> {
       Lambda((x) => Get(x))
     );
 
-    const result = (await this.client.query(query)) as { data: FaunaQueryResponse<Response>[] };
+    const response = (await this.client.query(query)) as { data: FaunaQueryResponse<Response>[] };
 
-    const formatted = result.data.map((item) => item.data);
+    const formatted = response.data.map((item) => item.data);
 
     return formatted;
   }
@@ -45,9 +45,9 @@ export class Crud<T> implements Protocol<T> {
   async get<Response = any>(id: string, index: CollectionIndexes) {
     const query = Get(Match(Index(index), Casefold(id)));
 
-    const data = (await this.client.query(query)) as FaunaQueryResponse<Response>;
+    const response = (await this.client.query(query)) as FaunaQueryResponse<Response>;
 
-    return data;
+    return response.data;
   }
 
   async create<Body = any, Response = any>(body: Body) {
@@ -56,9 +56,9 @@ export class Crud<T> implements Protocol<T> {
 
     const query = Create(Collection(this.collection), { data: { id, createdAt, ...body } });
 
-    const data = (await this.client.query(query)) as FaunaQueryResponse<Response>;
+    const response = (await this.client.query(query)) as FaunaQueryResponse<Response>;
 
-    return data;
+    return response.data;
   }
 
   async update<Body = any, Response = any>(id: string, body: Body) {
@@ -66,9 +66,9 @@ export class Crud<T> implements Protocol<T> {
 
     const query = Update(Ref(Collection(this.collection), id), { data: { updatedAt, ...body } });
 
-    const data = (await this.client.query(query)) as FaunaQueryResponse<Response>;
+    const response = (await this.client.query(query)) as FaunaQueryResponse<Response>;
 
-    return data;
+    return response.data;
   }
 
   async delete<Response = any>(id: string) {
@@ -76,8 +76,8 @@ export class Crud<T> implements Protocol<T> {
 
     const query = Update(Ref(Collection(this.collection), id), { data: { ...body } });
 
-    const data = (await this.client.query(query)) as FaunaQueryResponse<Response>;
+    const response = (await this.client.query(query)) as FaunaQueryResponse<Response>;
 
-    return data;
+    return response.data;
   }
 }

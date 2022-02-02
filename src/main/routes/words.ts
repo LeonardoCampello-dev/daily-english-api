@@ -41,7 +41,7 @@ router.get('/:id', async (request: Request, response: Response) => {
 
     const result = await crudService.get<Word>(id, CollectionIndexesEnum.wordById);
 
-    response.json(result.data);
+    response.json(result);
   } catch (error) {
     const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
@@ -63,7 +63,7 @@ router.post('/', async (request: Request, response: Response) => {
 
     const result = await crudService.create<Body, Word>(body);
 
-    response.json(result.data);
+    response.json(result);
   } catch (error) {
     const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
@@ -91,7 +91,7 @@ router.put('/:id', async (request: Request, response: Response) => {
 
     const result = await crudService.update<Body, Word>(id, body);
 
-    response.json(result.data);
+    response.json(result);
   } catch (error) {
     const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
@@ -111,7 +111,7 @@ router.delete('/:id', async (request: Request, response: Response) => {
 
     const result = await crudService.delete<Word>(id);
 
-    response.json(result.data);
+    response.json(result);
   } catch (error) {
     const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 

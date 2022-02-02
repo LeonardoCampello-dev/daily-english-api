@@ -27,7 +27,7 @@ router.get('/:id', async (request: Request, response: Response) => {
 
     const result = await crudService.get<Song>(id, CollectionIndexesEnum.songById);
 
-    response.json(result.data);
+    response.json(result);
   } catch (error) {
     const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
@@ -49,7 +49,7 @@ router.post('/', async (request: Request, response: Response) => {
 
     const result = await crudService.create<Body, Song>(body);
 
-    response.json(result.data);
+    response.json(result);
   } catch (error) {
     const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
@@ -77,7 +77,7 @@ router.put('/:id', async (request: Request, response: Response) => {
 
     const result = await crudService.update<Body, Song>(id, body);
 
-    response.json(result.data);
+    response.json(result);
   } catch (error) {
     const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
@@ -97,7 +97,7 @@ router.delete('/:id', async (request: Request, response: Response) => {
 
     const result = await crudService.delete<Song>(id);
 
-    response.json(result.data);
+    response.json(result);
   } catch (error) {
     const formattedError = errorHandler.handle(error.requestResult.statusCode, error.description);
 
