@@ -14,7 +14,7 @@ import { Phrase } from '../../domain/entities';
 import { CollectionIndexesEnum, HttpStatusCode } from '../types';
 
 const router = Router();
-const crudService = new Crud<Phrase>('sentences', faunaClient);
+const crudService = new Crud<Phrase>('sentences', CollectionIndexesEnum.PHRASE_BY_ID, faunaClient);
 const errorHandler = new ErrorHandler();
 
 type Body = Omit<Phrase, 'id'>;
@@ -43,7 +43,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Phrase>(id, CollectionIndexesEnum.PHRASE_BY_ID);
+    const result = await crudService.get<Phrase>(id);
 
     response.json(result);
   } catch (error) {

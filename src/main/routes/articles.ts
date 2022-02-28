@@ -12,7 +12,7 @@ import { Article } from '../../domain/entities';
 import { CollectionIndexesEnum, HttpStatusCode } from '../types';
 
 const router = Router();
-const crudService = new Crud<Article>('articles', faunaClient);
+const crudService = new Crud<Article>('articles', CollectionIndexesEnum.ARTICLE_BY_ID, faunaClient);
 const errorHandler = new ErrorHandler();
 
 type Body = Omit<Article, 'id'>;
@@ -41,7 +41,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Article>(id, CollectionIndexesEnum.ARTICLE_BY_ID);
+    const result = await crudService.get<Article>(id);
 
     response.json(result);
   } catch (error) {

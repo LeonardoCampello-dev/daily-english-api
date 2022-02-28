@@ -9,7 +9,7 @@ import { Word } from '../../domain/entities';
 import { CollectionIndexesEnum, HttpStatusCode } from '../types';
 
 const router = Router();
-const crudService = new Crud<Word>('words', faunaClient);
+const crudService = new Crud<Word>('words', CollectionIndexesEnum.WORD_BY_ID, faunaClient);
 const errorHandler = new ErrorHandler();
 
 type Body = Omit<Word, 'id'>;
@@ -38,7 +38,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Word>(id, CollectionIndexesEnum.WORD_BY_ID);
+    const result = await crudService.get<Word>(id);
 
     response.json(result);
   } catch (error) {

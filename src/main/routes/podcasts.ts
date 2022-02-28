@@ -13,7 +13,7 @@ import { Podcast } from '../../domain/entities';
 import { CollectionIndexesEnum, HttpStatusCode } from '../types';
 
 const router = Router();
-const crudService = new Crud<Podcast>('podcasts', faunaClient);
+const crudService = new Crud<Podcast>('podcasts', CollectionIndexesEnum.PODCAST_BY_ID, faunaClient);
 const errorHandler = new ErrorHandler();
 
 type Body = Omit<Podcast, 'id'>;
@@ -42,7 +42,7 @@ router.get('/:id', async (request: Request, response: Response) => {
       response.status(formattedError.status).json(formattedError);
     }
 
-    const result = await crudService.get<Podcast>(id, CollectionIndexesEnum.PODCAST_BY_ID);
+    const result = await crudService.get<Podcast>(id);
 
     response.json(result);
   } catch (error) {
