@@ -10,8 +10,11 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "baseUrl": "src",
+    "rootDir": "src",
     "paths": {
-      "@/*": ["*"]
+      "application": ["./src/application/*"],
+      "domain": ["./src/domain/*"],
+      "main": ["./src/main/*"]
     }
   }
 }

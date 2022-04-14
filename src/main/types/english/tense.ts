@@ -1,1 +1,1 @@
-export type Tense = 'present' | 'past' | 'future' | 'continuous' | 'perfect';
+export type Tense = 'present' | 'past' | 'future' | 'continuous' | 'perfect'

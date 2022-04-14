@@ -1,17 +1,17 @@
-import { Router } from 'express';
+import { Router } from 'express'
 
-import { words } from './words';
-import { phrases } from './phrases';
-import { articles } from './articles';
-import { podcasts } from './podcasts';
-import { songs } from './song';
+import { words } from 'main/routes/words'
+import { phrases } from 'main/routes/phrases'
+import { articles } from 'main/routes/articles'
+import { podcasts } from 'main/routes/podcasts'
+import { songs } from 'main/routes/songs'
 
-const router = Router();
+const router = Router()
 
-router.use('/words', words);
-router.use('/phrases', phrases);
-router.use('/articles', articles);
-router.use('/podcasts', podcasts);
-router.use('/songs', songs);
+router.use('/words', words)
+router.use('/phrases', phrases)
+router.use('/articles', articles)
+router.use('/podcasts', podcasts)
+router.use('/songs', songs)
 
-export { router };
+export { router }

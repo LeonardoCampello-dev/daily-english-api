@@ -1,12 +1,11 @@
-export * from './date-records/date-records';
+export * from './date-records'
 
-export * from './english/tense';
+export * from './english'
 
-export * from './collections/collections';
-export * from './collections/indexes';
+export * from './collections'
 
-export * from './fauna/fauna-query-response';
+export * from './fauna'
 
-export * from './http/http-response';
+export * from './http'
 
-export * from './crud/crud-protocol';
+export * from './crud'

@@ -1,2 +1,2 @@
-export * from './crud-service';
-export * from './error-handler';
+export * from './crud-service'
+export * from './error-handler'
